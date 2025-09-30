@@ -44,6 +44,7 @@
     ghq
     lazygit
     zellij
+    codex
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -61,6 +62,7 @@
     # '';
     ".config/nvim".source = ./nvim;
     ".config/zellij".source = ./zellij;
+    ".codex".source = ./codex;
     ".gitconfig".source = ./.gitconfig;
   };
 
