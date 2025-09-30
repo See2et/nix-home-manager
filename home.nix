@@ -103,6 +103,7 @@
       abbr -S lg='lazygit'
       abbr -S bat='batcat'
       abbr -S ze='zellij --layout 1p2p'
+      abbr -S up='cd ../'
     '';
     antidote = {
       enable = true;
