@@ -42,6 +42,8 @@
     nixfmt-rfc-style
     gh
     ghq
+    lazygit
+    zellij
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -86,8 +88,18 @@
 
   programs.zsh = {
     enable = true;
+    zsh-abbr.enable = true;
     initContent = ''
       export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+      export NIXPKGS_ALLOW_UNFREE=1
+
+      abbr -S v='nvim'
+      abbr -S ll='lsd -alF'
+      abbr -S ls='lsd'
+      abbr -S la='lsd -altr'
+      abbr -S lg='lazygit'
+      abbr -S bat='batcat'
+      abbr -S ze='zellij --layout 1p2p'
     '';
     antidote = {
       enable = true;
