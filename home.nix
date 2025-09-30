@@ -60,6 +60,7 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
     ".config/nvim".source = ./nvim;
+    ".config/zellij".source = ./zellij;
     ".gitconfig".source = ./.gitconfig;
   };
 
