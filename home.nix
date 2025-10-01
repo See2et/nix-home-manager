@@ -131,7 +131,7 @@
       peco-ghq () {
         cd "$( ghq list --full-path | peco --layout=bottom-up)"
       }
-      alias gp='peco-ghq'
+      abbr -S gp='peco-ghq'
 
       function peco-git-switch() {
         local branch
@@ -140,7 +140,7 @@
           git switch "$branch"
         fi
       }
-      alias gsp="peco-git-switch"
+      abbr -S gsp="peco-git-switch"
 
       function peco-history() {
         local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++' | tac | peco --prompt "HISTORY>" --layout=bottom-up)
