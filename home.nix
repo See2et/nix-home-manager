@@ -62,8 +62,13 @@
     # '';
     ".config/nvim".source = ./nvim;
     ".config/zellij".source = ./zellij;
-    ".codex".source = ./codex;
     ".gitconfig".source = ./.gitconfig;
+    ".codex/config.toml".source = ./codex/config.toml;
+    ".codex/AGENTS.md".source = ./codex/AGENTS.md;
+    ".codex/github-mcp.sh" = {
+      source = ./codex/github-mcp.sh;
+      executable = true;
+    };
   };
 
   # Home Manager can also manage your environment variables through
@@ -95,6 +100,8 @@
     initContent = ''
       export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
       export NIXPKGS_ALLOW_UNFREE=1
+
+      chmod 700 "$HOME/.codex"
 
       abbr -S v='nvim'
       abbr -S ll='lsd -alF'
