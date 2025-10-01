@@ -48,6 +48,10 @@
     zenn-cli
     peco
     zoxide
+    nodejs_24
+    pnpm
+    yarn
+    deno
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
