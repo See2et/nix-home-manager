@@ -114,6 +114,7 @@
       abbr -S bat='batcat'
       abbr -S ze='zellij --layout 1p2p'
       abbr -S up='cd ../'
+      abbr -S cl='clear'
 
       # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
       # Initialization code that may require console input (password prompts, [y/n]
