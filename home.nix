@@ -155,7 +155,7 @@
               abbr -S gsp="peco-git-switch"
 
               function peco-history() {
-                local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++' | tac | peco --prompt "HISTORY>" --layout=bottom-up)
+                local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++ { lines[++count] = $0 } END { for (i = count; i >= 1; i--) print lines[i] }' | peco --prompt "HISTORY>" --layout=bottom-up)
                   
                 if [ -n "$selected_command" ]; then
                   print -s "$selected_command"
