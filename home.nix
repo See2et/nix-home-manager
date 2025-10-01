@@ -47,6 +47,7 @@
     codex
     zenn-cli
     peco
+    zoxide
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -128,6 +129,8 @@
       # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+      eval "$(zoxide init zsh)"
+
       peco-ghq () {
         cd "$( ghq list --full-path | peco --layout=bottom-up)"
       }
@@ -152,6 +155,13 @@
         fi
       }
       abbr -S ph="peco-history"
+
+      function peco-zoxide() {
+        local dir
+        dir=$(zoxide query -l | peco --prompt "ZOX> " --layout=bottom-up)
+        [[ -n "$dir" ]] && cd "$dir"
+      }
+      abbr -S pz="peco-zoxide"
     '';
     antidote = {
       enable = true;
@@ -160,7 +170,6 @@
         "zsh-users/zsh-autosuggestions"
         "zsh-users/zsh-syntax-highlighting"
         "romkatv/powerlevel10k"
-        "rupa/z"
         "Tarrasch/zsh-bd"
       ];
     };
