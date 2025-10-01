@@ -1,4 +1,4 @@
-{ config, pkgs, isDarwin, ... }: {
+{ config, pkgs, lib, isDarwin, ... }: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "see2et";
@@ -107,68 +107,73 @@
   programs.zsh = {
     enable = true;
     zsh-abbr.enable = true;
-    initContent = ''
-      export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
-      export NIXPKGS_ALLOW_UNFREE=1
+    initContent = let 
+            zshConfigEarlyInit = lib.mkOrder 500 ''
+              export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+              export NIXPKGS_ALLOW_UNFREE=1
 
-      chmod 700 "$HOME/.codex"
+              # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+              # Initialization code that may require console input (password prompts, [y/n]
+              # confirmations, etc.) must go above this block; everything else may go below.
+              if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+                source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+              fi
 
-      export ABBR_QUIET=1
-      abbr -S v='nvim'
-      abbr -S ll='lsd -alF'
-      abbr -S ls='lsd'
-      abbr -S la='lsd -altr'
-      abbr -S lg='lazygit'
-      abbr -S bat='batcat'
-      abbr -S ze='zellij --layout 1p2p'
-      abbr -S up='cd ../'
-      abbr -S cl='clear'
-      abbr -S re='home-manager switch --impure && zsh'
+              # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+              [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+            '';
+            zshConfig = lib.mkOrder 1000 ''
+              chmod 700 "$HOME/.codex"
 
-      # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-      # Initialization code that may require console input (password prompts, [y/n]
-      # confirmations, etc.) must go above this block; everything else may go below.
-      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      fi
+              export ABBR_QUIET=1
+              abbr -S v='nvim'
+              abbr -S ll='lsd -alF'
+              abbr -S ls='lsd'
+              abbr -S la='lsd -altr'
+              abbr -S lg='lazygit'
+              abbr -S bat='batcat'
+              abbr -S ze='zellij --layout 1p2p'
+              abbr -S up='cd ../'
+              abbr -S cl='clear'
+              abbr -S re='home-manager switch --impure && zsh'
 
-      # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-      eval "$(zoxide init zsh)"
+              eval "$(zoxide init zsh)"
 
-      peco-ghq () {
-        cd "$( ghq list --full-path | peco --layout=bottom-up)"
-      }
-      abbr -S gp='peco-ghq'
+              peco-ghq () {
+                cd "$( ghq list --full-path | peco --layout=bottom-up)"
+              }
+              abbr -S gp='peco-ghq'
 
-      function peco-git-switch() {
-        local branch
-        branch=$(git branch --format="%(refname:short)" | peco --query "$LBUFFER" --layout=bottom-up)
-        if [[ -n "$branch" ]]; then
-          git switch "$branch"
-        fi
-      }
-      abbr -S gsp="peco-git-switch"
+              function peco-git-switch() {
+                local branch
+                branch=$(git branch --format="%(refname:short)" | peco --query "$LBUFFER" --layout=bottom-up)
+                if [[ -n "$branch" ]]; then
+                  git switch "$branch"
+                fi
+              }
+              abbr -S gsp="peco-git-switch"
 
-      function peco-history() {
-        local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++' | tac | peco --prompt "HISTORY>" --layout=bottom-up)
-          
-        if [ -n "$selected_command" ]; then
-          print -s "$selected_command"
-          echo "Executing: $selected_command"    
-          eval "$selected_command"
-        fi
-      }
-      abbr -S ph="peco-history"
+              function peco-history() {
+                local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++' | tac | peco --prompt "HISTORY>" --layout=bottom-up)
+                  
+                if [ -n "$selected_command" ]; then
+                  print -s "$selected_command"
+                  echo "Executing: $selected_command"    
+                  eval "$selected_command"
+                fi
+              }
+              abbr -S ph="peco-history"
 
-      function peco-zoxide() {
-        local dir
-        dir=$(zoxide query -l | peco --prompt "ZOX> " --layout=bottom-up)
-        [[ -n "$dir" ]] && cd "$dir"
-      }
-      abbr -S pz="peco-zoxide"
-    '';
+              function peco-zoxide() {
+                local dir
+                dir=$(zoxide query -l | peco --prompt "ZOX> " --layout=bottom-up)
+                [[ -n "$dir" ]] && cd "$dir"
+              }
+              abbr -S pz="peco-zoxide"
+
+            '';
+        in lib.mkMerge [ zshConfigEarlyInit zshConfig ];
     antidote = {
       enable = true;
       plugins = [
