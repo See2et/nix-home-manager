@@ -105,6 +105,7 @@
 
       chmod 700 "$HOME/.codex"
 
+      export ABBR_QUIET=1
       abbr -S v='nvim'
       abbr -S ll='lsd -alF'
       abbr -S ls='lsd'
