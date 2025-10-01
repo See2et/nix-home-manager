@@ -140,7 +140,7 @@
 
               eval "$(zoxide init zsh)"
 
-              peco-ghq () {
+              function peco-ghq () {
                 cd "$( ghq list --full-path | peco --layout=bottom-up)"
               }
               abbr -S gp='peco-ghq'
@@ -171,7 +171,6 @@
                 [[ -n "$dir" ]] && cd "$dir"
               }
               abbr -S pz="peco-zoxide"
-
             '';
         in lib.mkMerge [ zshConfigEarlyInit zshConfig ];
     antidote = {
