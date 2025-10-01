@@ -127,10 +127,10 @@
       # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-      ghq-peco () {
+      peco-ghq () {
         cd "$( ghq list --full-path | peco --layout=bottom-up)"
       }
-      alias gp='ghq-peco'
+      alias gp='peco-ghq'
 
       function peco-git-switch() {
         local branch
