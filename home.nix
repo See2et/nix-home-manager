@@ -64,6 +64,7 @@
     ".config/nvim".source = ./nvim;
     ".config/zellij".source = ./zellij;
     ".gitconfig".source = ./.gitconfig;
+    ".p10k.zsh".source = ./.p10k.zsh;
     ".codex/config.toml".source = ./codex/config.toml;
     ".codex/AGENTS.md".source = ./codex/AGENTS.md;
     ".codex/github-mcp.sh" = {
@@ -112,6 +113,16 @@
       abbr -S bat='batcat'
       abbr -S ze='zellij --layout 1p2p'
       abbr -S up='cd ../'
+
+      # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+      # Initialization code that may require console input (password prompts, [y/n]
+      # confirmations, etc.) must go above this block; everything else may go below.
+      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+      fi
+
+      # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
     '';
     antidote = {
       enable = true;
