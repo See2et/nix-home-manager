@@ -141,6 +141,17 @@
         fi
       }
       alias gsp="peco-git-switch"
+
+      function peco-history() {
+        local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++' | tac | peco --prompt "HISTORY>" --layout=bottom-up)
+          
+        if [ -n "$selected_command" ]; then
+          print -s "$selected_command"
+          echo "Executing: $selected_command"    
+          eval "$selected_command"
+        fi
+      }
+      abbr -S ph="peco-history"
     '';
     antidote = {
       enable = true;
