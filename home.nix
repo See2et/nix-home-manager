@@ -131,6 +131,15 @@
         cd "$( ghq list --full-path | peco --layout=bottom-up)"
       }
       alias gp='ghq-peco'
+
+      function peco-git-switch() {
+        local branch
+        branch=$(git branch --format="%(refname:short)" | peco --query "$LBUFFER")
+        if [[ -n "$branch" ]]; then
+          git switch "$branch"
+        fi
+      }
+      alias gsp="peco-git-switch"
     '';
     antidote = {
       enable = true;
