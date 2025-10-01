@@ -139,13 +139,13 @@
         eval "$(zoxide init zsh)"
 
         function peco-ghq () {
-          cd "$( ghq list --full-path | peco --layout=bottom-up)"
+          cd "$( ghq list --full-path | peco --prompt "REPO> " --layout=bottom-up)"
         }
         abbr -S gp='peco-ghq'
 
         function peco-git-switch() {
           local branch
-          branch=$(git branch --format="%(refname:short)" | peco --query "$LBUFFER" --layout=bottom-up)
+          branch=$(git branch --format="%(refname:short)" | peco --prompt "BRANCH> " --query "$LBUFFER" --layout=bottom-up)
           if [[ -n "$branch" ]]; then
             git switch "$branch"
           fi
@@ -165,7 +165,7 @@
 
         function peco-zoxide() {
           local dir
-          dir=$(zoxide query -l | peco --prompt "ZOX> " --layout=bottom-up)
+          dir=$(zoxide query -l | peco --prompt "DIR> " --layout=bottom-up)
           [[ -n "$dir" ]] && cd "$dir"
         }
         abbr -S zp="peco-zoxide"
