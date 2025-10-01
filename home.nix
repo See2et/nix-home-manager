@@ -134,7 +134,7 @@
 
       function peco-git-switch() {
         local branch
-        branch=$(git branch --format="%(refname:short)" | peco --query "$LBUFFER")
+        branch=$(git branch --format="%(refname:short)" | peco --query "$LBUFFER" --layout=bottom-up)
         if [[ -n "$branch" ]]; then
           git switch "$branch"
         fi
