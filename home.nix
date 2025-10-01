@@ -46,6 +46,7 @@
     zellij
     codex
     zenn-cli
+    peco
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -125,6 +126,11 @@
 
       # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+      ghq-peco () {
+        cd "$( ghq list --full-path | peco --layout=bottom-up)"
+      }
+      alias gp='ghq-peco'
     '';
     antidote = {
       enable = true;
