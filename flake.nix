@@ -12,8 +12,9 @@
 
   outputs = { nixpkgs, home-manager, ... }:
     let
-      system = "x86_64-linux";
+      system = builtins.currentSystem;
       pkgs = nixpkgs.legacyPackages.${system};
+      isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
     in {
       homeConfigurations."see2et" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
@@ -24,6 +25,9 @@
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
+        extraSpecialArgs = {
+          inherit isDarwin;
+        };
       };
     };
 }

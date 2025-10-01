@@ -1,8 +1,10 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, isDarwin, ... }: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "see2et";
-  home.homeDirectory = "/home/see2et";
+  home.homeDirectory = 
+    if isDarwin then "/Users/see2et"
+    else "/home/see2et";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
