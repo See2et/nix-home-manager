@@ -17,6 +17,7 @@ return {
             "taplo",
             "tinymist",
             "nil_ls",
+            "yamlls"
         }
 
         mason.setup()
