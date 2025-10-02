@@ -145,13 +145,24 @@
         abbr -S gp='peco-ghq'
 
         function peco-git-switch() {
-          local branch
-          branch=$(git branch --format="%(refname:short)" | peco --prompt "BRANCH> " --query "$LBUFFER" --layout=bottom-up)
-          if [[ -n "$branch" ]]; then
+          local sel branch
+          sel=$(
+            git for-each-ref --format='%(refname:short)' refs/heads \
+            | peco --prompt "BRANCH> " --query "$LBUFFER" --layout=bottom-up --print-query \
+            | tail -n 1
+          ) || return
+
+          [[ -z "$sel" ]] && return
+          branch="$sel"
+
+          if git show-ref --verify --quiet "refs/heads/$branch"; then
             git switch "$branch"
+          else
+            git switch -c "$branch"
           fi
         }
         abbr -S gsp="peco-git-switch"
+
 
         function peco-history() {
           local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++ { lines[++count] = $0 } END { for (i = count; i >= 1; i--) print lines[i] }' | peco --prompt "HISTORY>" --layout=bottom-up)
