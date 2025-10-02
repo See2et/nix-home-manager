@@ -24,3 +24,12 @@ command = "npx"
 
 [mcp_servers.github]
 command = "/home/see2et/.codex/github-mcp.sh"
+
+[mcp_servers."spec-workflow"]
+command = "npx"
+args = [
+    "-y",
+    "@pimzino/spec-workflow-mcp@latest",
+    "~/repos/github.com/See2et/bakopa-vr",
+    "--AutoStartDashboard",
+]
