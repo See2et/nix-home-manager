@@ -135,7 +135,7 @@
         abbr -S ze='zellij --layout 1p2p'
         abbr -S up='cd ../'
         abbr -S cl='clear'
-        abbr -S re='home-manager switch --impure && zsh'
+        abbr -S re='rm -rf ~/.codex/config.toml && home-manager switch --impure && zsh'
 
 
         eval "$(zoxide init zsh)"
