@@ -69,8 +69,6 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-    ".config/nvim".source = ./nvim;
-    ".config/zellij".source = ./zellij;
     ".gitconfig".source = ./.gitconfig;
     ".p10k.zsh".source = ./.p10k.zsh;
     ".codex/config.toml".source = ./codex/config.toml;
@@ -79,6 +77,11 @@
       source = ./codex/github-mcp.sh;
       executable = true;
     };
+  };
+
+  xdg.configFile = {
+    "nvim".source = ./nvim;
+    "zellij".source = ./zellij;
   };
 
   # Home Manager can also manage your environment variables through
