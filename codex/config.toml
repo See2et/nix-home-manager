@@ -23,7 +23,7 @@ args = ["-y", "@upstash/context7-mcp"]
 command = "npx"
 
 [mcp_servers.github]
-command = "/home/see2et/.codex/github-mcp.sh"
+command = "~/.codex/github-mcp.sh"
 
 [mcp_servers.spec-workflow]
 command = "npx"
