@@ -104,6 +104,14 @@
     # EDITOR = "emacs";
   };
 
+  home.activation.uvInstallMcpProxy = lib.mkAfter ''
+    if ! dommand -v mcp-proxy >/dev/null 2>&1; then
+        ${pkgs.uv}/bin/uv tool install mcp-proxy
+    else
+        true
+    fi
+  '';
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -127,6 +135,7 @@
       '';
       zshConfig = lib.mkOrder 1000 ''
         chmod 700 "$HOME/.codex"
+        export PATH="/home/see2et/.local/bin:$PATH"
 
         export ABBR_QUIET=1
         abbr -S v='nvim'
