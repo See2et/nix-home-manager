@@ -117,7 +117,6 @@
 
   programs.zsh = {
     enable = true;
-    zsh-abbr.enable = true;
     initContent = let
       zshConfigEarlyInit = lib.mkOrder 500 ''
         export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
@@ -138,17 +137,6 @@
         export PATH="/home/see2et/.local/bin:$PATH"
 
         export ABBR_QUIET=1
-        abbr -S v='nvim'
-        abbr -S ll='lsd -alF'
-        abbr -S ls='lsd'
-        abbr -S la='lsd -altr'
-        abbr -S lg='lazygit'
-        abbr -S bat='batcat'
-        abbr -S ze='zellij --layout 1p2p'
-        abbr -S up='cd ../'
-        abbr -S cl='clear'
-        abbr -S re='rm -rf ~/.codex/config.toml && home-manager switch --impure && zsh'
-
 
         eval "$(zoxide init zsh)"
 
@@ -196,6 +184,22 @@
         abbr -S zp="peco-zoxide"
       '';
     in lib.mkMerge [ zshConfigEarlyInit zshConfig ];
+    zsh-abbr = {
+      enable = true;
+      abbreviations = {
+        v = "nvim";
+        ll = "lsd -alF";
+        ls = "lsd";
+        la = "lsd -altr";
+        lg = "lazygit";
+        bat = "batcat";
+        ze = "zellij --layout 1p2p";
+        up = "cd ../";
+        cl = "clear";
+        re =
+          "rm -rf ~/.codex/config.toml && home-manager switch --impure && zsh";
+      };
+    };
     antidote = {
       enable = true;
       plugins = [
