@@ -199,7 +199,7 @@
         cl = "clear";
         re =
           "rm -rf ~/.codex/config.toml && home-manager switch --impure && zsh";
-        gcm = ''git coomit -m "%"'';
+        gcm = ''git commit -m "%"'';
       };
     };
     antidote = {
