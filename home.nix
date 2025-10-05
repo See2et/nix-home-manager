@@ -137,6 +137,7 @@
         export PATH="/home/see2et/.local/bin:$PATH"
 
         export ABBR_QUIET=1
+        ABBR_SET_EXPANSION_CURSOR=1
 
         eval "$(zoxide init zsh)"
 
@@ -198,6 +199,7 @@
         cl = "clear";
         re =
           "rm -rf ~/.codex/config.toml && home-manager switch --impure && zsh";
+        gcm = ''git coomit -m "%"'';
       };
     };
     antidote = {
