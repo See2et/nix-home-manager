@@ -17,6 +17,7 @@
       overlays = [ rust-overlay.overlays.default ];
       pkgs = import nixpkgs {
         inherit system overlays;
+        config.allowUnfree = true;
       };
       isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
     in {
