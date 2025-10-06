@@ -8,12 +8,16 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, rust-overlay, ... }:
     let
       system = builtins.currentSystem;
-      pkgs = nixpkgs.legacyPackages.${system};
+      overlays = [ rust-overlay.overlays.default ];
+      pkgs = import nixpkgs {
+        inherit system overlays;
+      };
       isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
     in {
       homeConfigurations."see2et" = home-manager.lib.homeManagerConfiguration {
@@ -25,9 +29,7 @@
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
-        extraSpecialArgs = {
-          inherit isDarwin;
-        };
+        extraSpecialArgs = { inherit isDarwin; };
       };
     };
 }
