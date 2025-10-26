@@ -8,15 +8,22 @@ layout {
             plugin location="status-bar"
         }
     }
-    tab name="llm+cmd" {
+    tab name="llm" {
         pane size=1 borderless=true {
             plugin location="tab-bar"
         }
         pane command="codex"
+        pane size=1 borderless=true {
+            plugin location="status-bar"
+        }
+    }
+    tab name="cmd" {
+        pane size=1 borderless=true {
+            plugin location="tab-bar"
+        }
         pane
         pane size=1 borderless=true {
             plugin location="status-bar"
         }
     }
-
 }
