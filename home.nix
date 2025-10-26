@@ -32,6 +32,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    git
     neovim
     zsh
     gcc
@@ -113,6 +114,14 @@
     fi
   '';
 
+  home.activation.uvInstallSpecKit = lib.mkAfter ''
+    if ! dommand -v specify >/dev/null 2>&1; then
+        ${pkgs.uv}/bin/uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
+    else
+        true
+    fi
+  '';
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -134,10 +143,13 @@
       '';
       zshConfig = lib.mkOrder 1000 ''
         chmod 700 "$HOME/.codex"
-        export PATH="/home/see2et/.local/bin:$PATH"
+        export PATH="~/.local/bin:$PATH"
 
         export ABBR_QUIET=1
         ABBR_SET_EXPANSION_CURSOR=1
+
+        typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+        ${pkgs.uv}/bin/uv tool update-shell
 
         eval "$(zoxide init zsh)"
 
