@@ -42,6 +42,6 @@ command = "uv"
 args = [
     "run",
     "--directory",
-    "C:\\Users\\YOUR_USERNAME\\AppData\\Local\\UnityMCP\\UnityMcpServer\\src",
+    "C:\\Users\\See2et\\AppData\\Local\\UnityMCP\\UnityMcpServer\\src",
     "server.py",
 ]
