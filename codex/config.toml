@@ -1,6 +1,9 @@
 model = "gpt-5-codex"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
 projects = { "/home/see2et/.config/nvim" = { trust_level = "trusted" }, "/home/see2et/.codex" = { trust_level = "trusted" } }
+
+[sandbox_workspace_write]
 network_access = true
 
 [tools]
@@ -32,4 +35,13 @@ args = [
     "@pimzino/spec-workflow-mcp@latest",
     "~/repos/github.com/See2et/bakopa-vr",
     "--AutoStartDashboard",
+]
+
+[mcp_servers.UnityMCP]
+command = "uv"
+args = [
+    "run",
+    "--directory",
+    "C:\\Users\\YOUR_USERNAME\\AppData\\Local\\UnityMCP\\UnityMcpServer\\src",
+    "server.py",
 ]
