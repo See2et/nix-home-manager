@@ -40,7 +40,7 @@ wk.add({
 
     -- LSP
     { "<leader>l",  group = "LSP" },
-    { "<leader>lf", "<cmd>Lspsaga lsp_finder<cr>",                       desc = "[L]sp [F]inder" },
+    { "<leader>lf", "<cmd>Lspsaga finder<cr>",                           desc = "[L]sp [F]inder" },
 
     -- Format
     { "<leader>f",  group = "Format" },
@@ -48,8 +48,8 @@ wk.add({
 
     -- Open
     { "<leader>o",  group = "Open" },
-    { "<leader>ot", "<cmd>terminal fish<cr>",                            desc = "[O]pen [T]erminal" },
-    { "<leader>og", "<cmd>terminal lazygit<cr>",                         desc = "[O]pen [G]it" },
+    { "<leader>ot", "<cmd>Lspsaga term_toggle<cr>",                      desc = "[O]pen [T]erminal" },
+    { "<leader>og", "<cmd>Lspsaga term_toggle lazygit<cr>",              desc = "[O]pen [G]it" },
     {
         "<leader>of",
         function()
@@ -108,9 +108,9 @@ wk.add({
     },
 
     -- その他トグル系
-    { ";n", "<cmd>Telescope noice<cr>", desc = "[;] Fuzzy [N]oice" },
-    { ";t", "<cmd>ToggleTerm<cr>",      desc = "[;] Toggle [T]erm" },
-    { ";z", "<cmd>ZenMode<cr>",         desc = "[;] Toggle [Z]enMode" },
+    { ";n", "<cmd>Telescope noice<cr>",     desc = "[;] Fuzzy [N]oice" },
+    { ";t", "<cmd>Lspsaga term_toggle<cr>", desc = "[;] Toggle [T]erm" },
+    { ";z", "<cmd>ZenMode<cr>",             desc = "[;] Toggle [Z]enMode" },
 })
 
 wk.add({
@@ -152,4 +152,3 @@ vim.keymap.set({ 'n', 'v' }, 'K', '<C-u>')
 vim.keymap.set({ 'n', 'v' }, 'L', '$')
 vim.keymap.set({ 'n', 'v' }, 'H', '^')
 vim.keymap.set({ 'n', 'v' }, 'mm', '%')
-vim.keymap.set('t', ';t', '<cmd>ToggleTerm<cr>')
