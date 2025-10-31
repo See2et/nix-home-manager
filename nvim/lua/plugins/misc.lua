@@ -224,5 +224,24 @@ return {
                 },
             })
         end,
-    }
+    },
+
+    {
+        "rachartier/tiny-inline-diagnostic.nvim",
+        event = "VeryLazy",
+        priority = 1000,
+        config = function()
+            require("tiny-inline-diagnostic").setup({
+                preset = "modern",
+                options = {
+                    multilines = {
+                        enabled = true,
+                    },
+                    break_line = {
+                        enabled = true,
+                    }
+                }
+            })
+        end,
+    },
 }
