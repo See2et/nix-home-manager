@@ -244,4 +244,18 @@ return {
             })
         end,
     },
+
+    {
+        "nvim-treesitter/nvim-treesitter-context",
+        config = function()
+            require("treesitter-context").setup {
+                enable = true,
+                multiwindows = true,
+            }
+        end,
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+        }
+    }
+
 }
