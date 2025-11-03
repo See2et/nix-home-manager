@@ -1,4 +1,11 @@
-{ config, pkgs, lib, isDarwin, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  isDarwin,
+  ...
+}:
+{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "see2et";
@@ -56,6 +63,7 @@
     deno
     uv
     fastfetch
+    tree-sitter
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -127,76 +135,81 @@
 
   programs.zsh = {
     enable = true;
-    initContent = let
-      zshConfigEarlyInit = lib.mkOrder 500 ''
-        export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+    initContent =
+      let
+        zshConfigEarlyInit = lib.mkOrder 500 ''
+          export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
-        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-        # Initialization code that may require console input (password prompts, [y/n]
-        # confirmations, etc.) must go above this block; everything else may go below.
-        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-        fi
-
-        # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-      '';
-      zshConfig = lib.mkOrder 1000 ''
-        chmod 700 "$HOME/.codex"
-        export PATH="~/.local/bin:$PATH"
-
-        export ABBR_QUIET=1
-        ABBR_SET_EXPANSION_CURSOR=1
-
-        typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-        ${pkgs.uv}/bin/uv tool update-shell
-
-        eval "$(zoxide init zsh)"
-
-        function peco-ghq () {
-          cd "$( ghq list --full-path | peco --prompt "REPO> " --layout=bottom-up)"
-        }
-        abbr -S gp='peco-ghq'
-
-        function peco-git-switch() {
-          local sel branch
-          sel=$(
-            git for-each-ref --format='%(refname:short)' refs/heads \
-            | peco --prompt "BRANCH> " --query "$LBUFFER" --layout=bottom-up --print-query \
-            | tail -n 1
-          ) || return
-
-          [[ -z "$sel" ]] && return
-          branch="$sel"
-
-          if git show-ref --verify --quiet "refs/heads/$branch"; then
-            git switch "$branch"
-          else
-            git switch -c "$branch"
+          # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+          # Initialization code that may require console input (password prompts, [y/n]
+          # confirmations, etc.) must go above this block; everything else may go below.
+          if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+            source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
           fi
-        }
-        abbr -S gsp="peco-git-switch"
+
+          # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+          [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+        '';
+        zshConfig = lib.mkOrder 1000 ''
+          chmod 700 "$HOME/.codex"
+          export PATH="~/.local/bin:$PATH"
+
+          export ABBR_QUIET=1
+          ABBR_SET_EXPANSION_CURSOR=1
+
+          typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+          ${pkgs.uv}/bin/uv tool update-shell
+
+          eval "$(zoxide init zsh)"
+
+          function peco-ghq () {
+            cd "$( ghq list --full-path | peco --prompt "REPO> " --layout=bottom-up)"
+          }
+          abbr -S gp='peco-ghq'
+
+          function peco-git-switch() {
+            local sel branch
+            sel=$(
+              git for-each-ref --format='%(refname:short)' refs/heads \
+              | peco --prompt "BRANCH> " --query "$LBUFFER" --layout=bottom-up --print-query \
+              | tail -n 1
+            ) || return
+
+            [[ -z "$sel" ]] && return
+            branch="$sel"
+
+            if git show-ref --verify --quiet "refs/heads/$branch"; then
+              git switch "$branch"
+            else
+              git switch -c "$branch"
+            fi
+          }
+          abbr -S gsp="peco-git-switch"
 
 
-        function peco-history() {
-          local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++ { lines[++count] = $0 } END { for (i = count; i >= 1; i--) print lines[i] }' | peco --prompt "HISTORY>" --layout=bottom-up)
-            
-          if [ -n "$selected_command" ]; then
-            print -s "$selected_command"
-            echo "Executing: $selected_command"    
-            eval "$selected_command"
-          fi
-        }
-        abbr -S hp="peco-history"
+          function peco-history() {
+            local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++ { lines[++count] = $0 } END { for (i = count; i >= 1; i--) print lines[i] }' | peco --prompt "HISTORY>" --layout=bottom-up)
+              
+            if [ -n "$selected_command" ]; then
+              print -s "$selected_command"
+              echo "Executing: $selected_command"    
+              eval "$selected_command"
+            fi
+          }
+          abbr -S hp="peco-history"
 
-        function peco-zoxide() {
-          local dir
-          dir=$(zoxide query -l | peco --prompt "DIR> " --layout=bottom-up)
-          [[ -n "$dir" ]] && cd "$dir"
-        }
-        abbr -S zp="peco-zoxide"
-      '';
-    in lib.mkMerge [ zshConfigEarlyInit zshConfig ];
+          function peco-zoxide() {
+            local dir
+            dir=$(zoxide query -l | peco --prompt "DIR> " --layout=bottom-up)
+            [[ -n "$dir" ]] && cd "$dir"
+          }
+          abbr -S zp="peco-zoxide"
+        '';
+      in
+      lib.mkMerge [
+        zshConfigEarlyInit
+        zshConfig
+      ];
     zsh-abbr = {
       enable = true;
       abbreviations = {
@@ -209,8 +222,7 @@
         ze = "zellij --layout 1p2p";
         up = "cd ../";
         cl = "clear";
-        re =
-          "rm -rf ~/.codex/config.toml && home-manager switch --impure && zsh";
+        re = "rm -rf ~/.codex/config.toml && home-manager switch --impure && zsh";
         gcm = ''git commit -m "%"'';
       };
     };

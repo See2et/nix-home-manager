@@ -58,7 +58,22 @@ return {
             dependencies = {
                 -- "nvim-tree/nvim-web-devicons",
                 -- Please make sure you install markdown and markdown_inline parser
-                { "nvim-treesitter/nvim-treesitter" },
+                {
+                    "nvim-treesitter/nvim-treesitter",
+                    config = function()
+                        require("nvim-treesitter.configs").setup {
+                            ensure_installed = {
+                                "markdown",
+                                "lua",
+                                "typescript",
+                                "rust",
+                            },
+                            sync_install = true,
+                            auto_install = true,
+                        }
+                    end,
+
+                },
             }
         },
         {
