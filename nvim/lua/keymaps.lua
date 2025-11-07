@@ -50,6 +50,7 @@ wk.add({
     { "<leader>o",  group = "Open" },
     { "<leader>ot", "<cmd>Lspsaga term_toggle<cr>",                      desc = "[O]pen [T]erminal" },
     { "<leader>og", "<cmd>Lspsaga term_toggle lazygit<cr>",              desc = "[O]pen [G]it" },
+    { "<leader>oc", "<cmd>Lspsaga term_toggle codex<cr>",                desc = "[O]pen [C]odex" },
     {
         "<leader>of",
         function()
