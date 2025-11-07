@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  rustToolchain,
   lib,
   isDarwin,
   ...
@@ -22,49 +23,50 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+  home.packages =
+    (with pkgs; [
+      # # Adds the 'hello' command to your environment. It prints a friendly
+      # # "Hello, world!" when run.
+      # pkgs.hello
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+      # # It is sometimes useful to fine-tune packages, for example, by applying
+      # # overrides. You can do that directly here, just don't forget the
+      # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+      # # fonts?
+      # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-    git
-    neovim
-    zsh
-    gcc
-    unzip
-    rust-bin.stable.latest.default
-    rust-analyzer
-    tre-command
-    lsd
-    nixfmt-rfc-style
-    gh
-    ghq
-    lazygit
-    zellij
-    codex
-    zenn-cli
-    peco
-    zoxide
-    nodejs_24
-    pnpm
-    yarn
-    deno
-    uv
-    fastfetch
-    tree-sitter
-  ];
+      # # You can also create simple shell scripts directly inside your
+      # # configuration. For example, this adds a command 'my-hello' to your
+      # # environment:
+      # (pkgs.writeShellScriptBin "my-hello" ''
+      #   echo "Hello, ${config.home.username}!"
+      # '')
+      git
+      neovim
+      zsh
+      gcc
+      unzip
+      rust-analyzer
+      tre-command
+      lsd
+      nixfmt-rfc-style
+      gh
+      ghq
+      lazygit
+      zellij
+      codex
+      zenn-cli
+      peco
+      zoxide
+      nodejs_24
+      pnpm
+      yarn
+      deno
+      uv
+      fastfetch
+      tree-sitter
+    ])
+    ++ [ rustToolchain ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -115,7 +117,7 @@
   };
 
   home.activation.uvInstallMcpProxy = lib.mkAfter ''
-    if ! dommand -v mcp-proxy >/dev/null 2>&1; then
+    if ! command -v mcp-proxy >/dev/null 2>&1; then
         ${pkgs.uv}/bin/uv tool install mcp-proxy
     else
         true
@@ -123,7 +125,8 @@
   '';
 
   home.activation.uvInstallSpecKit = lib.mkAfter ''
-    if ! dommand -v specify >/dev/null 2>&1; then
+    export PATH="$HOME/.local/bin:${pkgs.git}/bin:$PATH"
+    if ! command -v specify >/dev/null 2>&1; then
         ${pkgs.uv}/bin/uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
     else
         true

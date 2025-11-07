@@ -11,7 +11,13 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
-  outputs = { nixpkgs, home-manager, rust-overlay, ... }:
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      rust-overlay,
+      ...
+    }:
     let
       system = builtins.currentSystem;
       overlays = [ rust-overlay.overlays.default ];
@@ -19,8 +25,16 @@
         inherit system overlays;
         config.allowUnfree = true;
       };
+      rustToolchain = pkgs.rust-bin.stable.latest.default.override {
+        extensions = [
+          "rust-src"
+          "clippy"
+          "rustfmt"
+        ];
+      };
       isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
-    in {
+    in
+    {
       homeConfigurations."see2et" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
@@ -30,7 +44,9 @@
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
-        extraSpecialArgs = { inherit isDarwin; };
+        extraSpecialArgs = {
+          inherit isDarwin rustToolchain;
+        };
       };
     };
 }
