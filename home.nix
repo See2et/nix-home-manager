@@ -65,6 +65,8 @@
       uv
       fastfetch
       tree-sitter
+      yt-dlp
+      ripgrep
     ])
     ++ [ rustToolchain ];
 
