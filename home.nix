@@ -67,6 +67,7 @@
       tree-sitter
       yt-dlp
       ripgrep
+      ffmpeg
     ])
     ++ [ rustToolchain ];
 
