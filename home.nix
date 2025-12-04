@@ -170,7 +170,7 @@
           ABBR_SET_EXPANSION_CURSOR=1
 
           typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-          ${pkgs.uv}/bin/uv tool update-shell
+          ${pkgs.uv}/bin/uv tool update-shell > /dev/null 2>&1
 
           eval "$(zoxide init zsh)"
 
