@@ -117,7 +117,7 @@
   #  /etc/profiles/per-user/see2et/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
   };
 
   home.activation.uvInstallMcpProxy = lib.mkAfter ''
