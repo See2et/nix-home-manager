@@ -287,6 +287,9 @@ return {
             lazygit = {
                 enabled = true,
             },
+            gh = {
+                enabled = true,
+            },
             dashboard = {
                 enabled = true,
                 width = 60,

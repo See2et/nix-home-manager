@@ -76,6 +76,13 @@ wk.add({
     { "<leader>sd", "<cmd>Lspsaga show_line_diagnostics<cr>",                  desc = "[S]how Line [D]iagnostics" },
     { "<leader>so", "<cmd>so<cr>",                                             desc = ":so" },
 
+    -- GitHub
+    { "<leader>g",  group = "GitHub" },
+    { "<leader>gI", function() Snacks.picker.gh_issue() end,                   desc = "GitHub Issues (open)" },
+    { "<leader>gi", function() Snacks.picker.gh_issue({ state = "all" }) end,  desc = "GitHub Issues (all)" },
+    { "<leader>gP", function() Snacks.picker.gh_pr() end,                      desc = "GitHub Pull Requests (open)" },
+    { "<leader>gp", function() Snacks.picker.gh_pr({ state = "all" }) end,     desc = "GitHub Pull Requests (all)" },
+
     -- グループ見出し
     { ";",          group = "Fuzzy / Tools" },
 
