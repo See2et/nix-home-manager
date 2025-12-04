@@ -284,6 +284,9 @@ return {
         priority = 1000,
         lazy = false,
         opts = {
+            lazygit = {
+                enabled = true,
+            },
             dashboard = {
                 enabled = true,
                 width = 60,
