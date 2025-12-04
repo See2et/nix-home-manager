@@ -140,6 +140,11 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  programs.gh = {
+    enable = true;
+    extensions = [ pkgs.gh-notify ];
+  };
+
   programs.zsh = {
     enable = true;
     initContent =
@@ -168,8 +173,6 @@
           ${pkgs.uv}/bin/uv tool update-shell
 
           eval "$(zoxide init zsh)"
-
-          gh ext install meiji163/gh-notify
 
           function peco-ghq () {
             cd "$( ghq list --full-path | peco --prompt "REPO> " --layout=bottom-up)"
