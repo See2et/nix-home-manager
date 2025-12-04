@@ -54,15 +54,7 @@ wk.add({
     {
         "<leader>of",
         function()
-            require("telescope").extensions.file_browser.file_browser({
-                path = "%:p:h",
-                cwd = vim.fn.expand("%:p:h"),
-                respect_gitignore = false,
-                hidden = true,
-                grouped = true,
-                initial_mode = "normal",
-                layout_config = { height = 40 },
-            })
+            require("oil").open_float()
         end,
         desc = "[O]pen [F]ile Browser"
     },
@@ -97,7 +89,21 @@ wk.add({
     { ";h",         function() require("telescope.builtin").help_tags() end,   desc = "[;] Fuzzy [H]elp" },
     { ";s",         function() require("telescope.builtin").grep_string() end, desc = "[;] Fuzzy [S]tring" },
     { ";r",         function() require("telescope.builtin").oldfiles() end,    desc = "[;] Fuzzy [R]ecently" },
-    { ";e",         function() require("telescope.builtin").buffers() end,     desc = "[;] Fuzzy [E]xisting" },
+    {
+        ";e",
+        function()
+            require("telescope").extensions.file_browser.file_browser({
+                path = "%:p:h",
+                cwd = vim.fn.expand("%:p:h"),
+                respect_gitignore = false,
+                hidden = true,
+                grouped = true,
+                initial_mode = "normal",
+                layout_config = { height = 40 },
+            })
+        end,
+        desc = "[;] Fuzzy [E]xplorer"
+    },
     {
         ";c",
         function()

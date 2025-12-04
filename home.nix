@@ -68,6 +68,7 @@
       yt-dlp
       ripgrep
       ffmpeg
+      fzf
     ])
     ++ [ rustToolchain ];
 
@@ -167,6 +168,8 @@
           ${pkgs.uv}/bin/uv tool update-shell
 
           eval "$(zoxide init zsh)"
+
+          gh ext install meiji163/gh-notify
 
           function peco-ghq () {
             cd "$( ghq list --full-path | peco --prompt "REPO> " --layout=bottom-up)"
