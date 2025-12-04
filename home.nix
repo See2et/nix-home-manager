@@ -120,6 +120,10 @@
     EDITOR = "nvim";
   };
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
+
   home.activation.uvInstallMcpProxy = lib.mkAfter ''
     if ! command -v mcp-proxy >/dev/null 2>&1; then
         ${pkgs.uv}/bin/uv tool install mcp-proxy
@@ -164,7 +168,6 @@
         '';
         zshConfig = lib.mkOrder 1000 ''
           chmod 700 "$HOME/.codex"
-          export PATH="~/.local/bin:$PATH"
 
           export ABBR_QUIET=1
           ABBR_SET_EXPANSION_CURSOR=1
