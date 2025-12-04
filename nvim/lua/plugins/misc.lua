@@ -347,7 +347,7 @@ return {
                 },
                 sections = {
                     { section = "header" },
-                    { section = "startup" },
+                    { section = "startup", padding = 2, indent = 2 },
                     { icon = " ", title = "Recent Files", section = "recent_files", padding = 2, indent = 2 },
                     {
                         icon = " ",
