@@ -95,6 +95,7 @@ wk.add({
     { ";g",         function() require("telescope.builtin").live_grep() end,   desc = "[;] Fuzzy by [G]rep" },
     { ";h",         function() require("telescope.builtin").help_tags() end,   desc = "[;] Fuzzy [H]elp" },
     { ";s",         function() require("telescope.builtin").grep_string() end, desc = "[;] Fuzzy [S]tring" },
+    { ";b",         function() require("telescope.builtin").buffers() end,     desc = "[;] Fuzzy [B]uffers" },
     { ";r",         function() require("telescope.builtin").oldfiles() end,    desc = "[;] Fuzzy [R]ecently" },
     {
         ";e",
