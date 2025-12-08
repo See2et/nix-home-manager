@@ -1,5 +1,5 @@
-model = "gpt-5-codex"
-model_reasoning_effort = "high"
+model = "gpt-5-codex-max"
+model_reasoning_effort = "mideum"
 sandbox_mode = "workspace-write"
 projects = { "/home/see2et/.config/nvim" = { trust_level = "trusted" }, "/home/see2et/.codex" = { trust_level = "trusted" } }
 
