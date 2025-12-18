@@ -69,6 +69,7 @@
       ripgrep
       ffmpeg
       fzf
+      markdownlint-cli2
     ])
     ++ [ rustToolchain ];
 
