@@ -6,8 +6,8 @@ projects = { "/home/see2et/.config/nvim" = { trust_level = "trusted" }, "/home/s
 [sandbox_workspace_write]
 network_access = true
 
-[tools]
-web_search = true
+[features]
+web_search_request = true
 
 [mcp_servers.serena]
 command = "uvx"
