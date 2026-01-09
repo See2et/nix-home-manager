@@ -95,7 +95,7 @@
       source = ./codex/github-mcp.sh;
       executable = true;
     };
-    "yubikey-setup.sh" = { 
+    "yubikey-setup.sh" = {
       source = ./yubikey-setup.sh;
       executable = true;
     };
@@ -124,10 +124,13 @@
   #
   home.sessionVariables = {
     EDITOR = "nvim";
+    UV_TOOL_DIR = "$XDG_DATA_HOME/uv/tools";
+    UV_TOOL_BIN_DIR = "$XDG_DATA_HOME/uv/tools/bin";
   };
 
   home.sessionPath = [
     "$HOME/.local/bin"
+    "$XDG_DATA_HOME/uv/tools/bin"
   ];
 
   # Let Home Manager install and manage itself.
@@ -156,15 +159,13 @@
           [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
         '';
         zshConfig = lib.mkOrder 1000 ''
-          chmod 700 "$HOME/.codex"
-
           export ABBR_QUIET=1
           ABBR_SET_EXPANSION_CURSOR=1
 
           typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-          ${pkgs.uv}/bin/uv tool update-shell > /dev/null 2>&1
 
           eval "$(zoxide init zsh)"
+          eval "$(${pkgs.uv}/bin/uv generate-shell-completion zsh)"
 
           function peco-ghq () {
             cd "$( ghq list --full-path | peco --prompt "REPO> " --layout=bottom-up)"
@@ -226,7 +227,7 @@
         ze = "zellij --layout 1p2p";
         up = "cd ../";
         cl = "clear";
-        re = "rm -rf ~/.codex/config.toml && home-manager switch --impure && zsh";
+        re = "home-manager switch --flake ~/.config/home-manager#";
         gcm = ''git commit -m "%"'';
       };
     };

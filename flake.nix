@@ -19,34 +19,36 @@
       ...
     }:
     let
-      system = builtins.currentSystem;
       overlays = [ rust-overlay.overlays.default ];
-      pkgs = import nixpkgs {
-        inherit system overlays;
-        config.allowUnfree = true;
-      };
-      rustToolchain = pkgs.rust-bin.stable.latest.default.override {
-        extensions = [
-          "rust-src"
-          "clippy"
-          "rustfmt"
-        ];
-      };
-      isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system overlays;
+          config.allowUnfree = true;
+        };
+
+      mkHome =
+        system:
+        let
+          pkgs = mkPkgs system;
+          rustToolchain = pkgs.rust-bin.stable.latest.default.override {
+            extensions = [
+              "rust-src"
+              "clippy"
+              "rustfmt"
+            ];
+          };
+          isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+        in
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./home.nix ];
+          extraSpecialArgs = { inherit isDarwin rustToolchain; };
+        };
     in
     {
-      homeConfigurations."nixos" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ ./home.nix ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
-        extraSpecialArgs = {
-          inherit isDarwin rustToolchain;
-        };
-      };
+      homeConfigurations."nixos" = mkHome "x86_64-linux";
+      homeConfigurations."darwin" = mkHome "aarch64-darwin";
     };
 }
