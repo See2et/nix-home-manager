@@ -1,6 +1,6 @@
 [user]
 	email = contact@see2et.dev
-    name = See2et / しーぜっと
+    name = See2et
     signingkey = A2FDEAC3D3FD9714
 [commit]
     gpgsign = true
