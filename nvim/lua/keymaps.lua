@@ -83,6 +83,8 @@ wk.add({
     { "<leader>gP", function() Snacks.picker.gh_pr() end,                      desc = "GitHub Pull Requests (open)" },
     { "<leader>gp", function() Snacks.picker.gh_pr({ state = "all" }) end,     desc = "GitHub Pull Requests (all)" },
 
+    { "<leader>x", "<cmd>NoiceDismiss<cr>"},
+
     -- グループ見出し
     { ";",          group = "Fuzzy / Tools" },
 
