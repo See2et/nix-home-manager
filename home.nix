@@ -94,6 +94,15 @@
     extensions = [ pkgs.gh-notify ];
   };
 
+  programs.gpg = {
+    enable = true;
+
+    # ~/.gnupg/scdaemon.conf に出力される
+    scdaemonSettings = {
+      disable-ccid = true;
+    };
+  };
+
   programs.zsh = {
     enable = true;
     initContent =
