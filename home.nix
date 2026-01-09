@@ -70,6 +70,7 @@
       ffmpeg
       fzf
       markdownlint-cli2
+      yubikey-manager
     ])
     ++ [ rustToolchain ];
 
