@@ -9,8 +9,8 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "see2et";
-  home.homeDirectory = if isDarwin then "/Users/see2et" else "/home/see2et";
+  home.username = "nixos";
+  home.homeDirectory = if isDarwin then "/Users/see2et" else "/home/nixos";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -95,6 +95,10 @@
       source = ./codex/github-mcp.sh;
       executable = true;
     };
+    "yubikey-setup.sh" = { 
+      source = ./yubikey-setup.sh;
+      executable = true;
+    };
   };
 
   xdg.configFile = {
@@ -125,23 +129,6 @@
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
-
-  home.activation.uvInstallMcpProxy = lib.mkAfter ''
-    if ! command -v mcp-proxy >/dev/null 2>&1; then
-        ${pkgs.uv}/bin/uv tool install mcp-proxy
-    else
-        true
-    fi
-  '';
-
-  home.activation.uvInstallSpecKit = lib.mkAfter ''
-    export PATH="$HOME/.local/bin:${pkgs.git}/bin:$PATH"
-    if ! command -v specify >/dev/null 2>&1; then
-        ${pkgs.uv}/bin/uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
-    else
-        true
-    fi
-  '';
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

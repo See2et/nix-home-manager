@@ -35,7 +35,7 @@
       isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
     in
     {
-      homeConfigurations."see2et" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."nixos" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         # Specify your home configuration modules here, for example,
