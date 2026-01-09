@@ -1,7 +1,7 @@
 [user]
 	email = 61668366+See2et@users.noreply.github.com.
     name = See2et / しーぜっと
-    signingkey = BD385E06CFF5701C
+    signingkey = A2FDEAC3D3FD9714
 [commit]
     gpgsign = true
 [init]
