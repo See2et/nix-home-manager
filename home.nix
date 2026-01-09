@@ -9,7 +9,7 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "nixos";
+  home.username = if isDarwin then "see2et" else "nixos";
   home.homeDirectory = if isDarwin then "/Users/see2et" else "/home/nixos";
 
   # This value determines the Home Manager release that your configuration is
