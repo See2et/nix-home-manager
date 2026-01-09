@@ -1,6 +1,9 @@
 [user]
 	email = 61668366+See2et@users.noreply.github.com.
-	name = See2et / しーぜっと
+    name = See2et / しーぜっと
+    signingkey = BD385E06CFF5701C
+[commit]
+    gpgsign = true
 [init]
 	defaultBranch = main
 [ghq]
