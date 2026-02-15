@@ -1,3 +1,4 @@
+# /etc/nixos/home.nix  (統合後の正本)
 {
   config,
   pkgs,
@@ -7,19 +8,10 @@
   ...
 }:
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = if isDarwin then "see2et" else "nixos";
   home.homeDirectory = if isDarwin then "/Users/see2et" else "/home/nixos";
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "25.05"; # Please read the comment before changing.
+  home.stateVersion = "25.05";
 
   home.packages =
     (with pkgs; [
@@ -53,6 +45,7 @@
       fzf
       markdownlint-cli2
       yubikey-manager
+      wget # for VSCode Server
     ])
     ++ [ rustToolchain ];
 
@@ -96,8 +89,6 @@
 
   programs.gpg = {
     enable = true;
-
-    # ~/.gnupg/scdaemon.conf に出力される
     scdaemonSettings = {
       disable-ccid = true;
     };
@@ -105,19 +96,16 @@
 
   programs.zsh = {
     enable = true;
+
     initContent =
       let
         zshConfigEarlyInit = lib.mkOrder 500 ''
           export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
-          # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-          # Initialization code that may require console input (password prompts, [y/n]
-          # confirmations, etc.) must go above this block; everything else may go below.
           if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
             source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
           fi
 
-          # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
           [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
         '';
         zshConfig = lib.mkOrder 1000 ''
@@ -153,13 +141,12 @@
           }
           abbr -S gsp="peco-git-switch"
 
-
           function peco-history() {
             local selected_command=$(fc -l -n 1 | tail -300 | awk '!seen[$0]++ { lines[++count] = $0 } END { for (i = count; i >= 1; i--) print lines[i] }' | peco --prompt "HISTORY>" --layout=bottom-up)
-              
+
             if [ -n "$selected_command" ]; then
               print -s "$selected_command"
-              echo "Executing: $selected_command"    
+              echo "Executing: $selected_command"
               eval "$selected_command"
             fi
           }
@@ -173,10 +160,8 @@
           abbr -S zp="peco-zoxide"
         '';
       in
-      lib.mkMerge [
-        zshConfigEarlyInit
-        zshConfig
-      ];
+      lib.mkMerge [ zshConfigEarlyInit zshConfig ];
+
     zsh-abbr = {
       enable = true;
       abbreviations = {
@@ -189,10 +174,15 @@
         ze = "zellij --layout 1p2p";
         up = "cd ../";
         cl = "clear";
-        re = "home-manager switch --flake ~/.config/home-manager#";
+
+        re = if isDarwin
+          then "home-manager switch --flake /etc/nixos#darwin"
+          else "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
+
         gcm = ''git commit -m "%"'';
       };
     };
+
     antidote = {
       enable = true;
       plugins = [
@@ -205,3 +195,4 @@
     };
   };
 }
+
